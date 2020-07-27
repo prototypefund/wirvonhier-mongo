@@ -9,9 +9,8 @@ on:
       - production
 
 jobs:
-  cd:
+  deliver:
     runs-on: ubuntu-latest
-    needs: ci
     env:
       MONGO_INITDB_ROOT_USERNAME: ${{ secrets.MONGO_INITDB_ROOT_USERNAME }}
       MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}
