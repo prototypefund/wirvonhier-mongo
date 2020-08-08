@@ -1,15 +1,14 @@
-name: CI/CD - Mongo
-
+name: Release - Mongo - Build and Push to Dockerhub
 on:
   push:
     branches:
-      - production
+      - release-*
   pull_request:
     branches:
-      - production
+      - release-*
 
 jobs:
-  deliver:
+  docker:
     runs-on: ubuntu-latest
     env:
       MONGO_INITDB_ROOT_USERNAME: ${{ secrets.MONGO_INITDB_ROOT_USERNAME }}
@@ -23,12 +22,13 @@ jobs:
       - name: Build
         run: docker build -t mongo .
         
-      - name: Tags
-        run: |
-          docker tag mongo ${{ secrets.DOCKER_ORGANIZATION }}/mongo:release-${{ github.sha }}
-          docker tag mongo ${{ secrets.DOCKER_ORGANIZATION }}/mongo:latest
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
 
-      - name: Push
+      - name: Tag and Push
         run: |
-          docker push ${{ secrets.DOCKER_ORGANIZATION }}/mongo:release-${{ github.sha }}
-          docker push ${{ secrets.DOCKER_ORGANIZATION }}/mongo:latest
+          tag="${{ steps.extract_branch.outputs.branch }}"
+          docker tag mongo "${{ secrets.DOCKER_ORGANIZATION }}/mongo:$tag"
+          docker push "${{ secrets.DOCKER_ORGANIZATION }}/mongo:$tag"
