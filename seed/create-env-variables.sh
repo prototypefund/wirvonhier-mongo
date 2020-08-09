@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 set -e
 
@@ -26,8 +26,3 @@ file_env() {
 
 file_env "MONGO_USER"
 file_env "MONGO_PASSWORD"
-
-exec "$@"
-echo "Finished executing docker-entrypoint"
-
-source /usr/local/bin/docker-entrypoint.sh
