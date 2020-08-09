@@ -24,8 +24,8 @@ file_env() {
 	unset "$fileVar"
 }
 
-file_env 'MONGO_USER'
-file_env 'MONGO_PASSWORD'
+file_env "MONGO_USER"
+file_env "MONGO_PASSWORD"
 
 exec "$@"
 
