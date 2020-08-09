@@ -4,5 +4,5 @@ COPY seed/seedUser.js /docker-entrypoint-initdb.d/1.js
 COPY seed/seedDataProtStatements.js /docker-entrypoint-initdb.d/2.js
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint-2.sh
 
-ENTRYPOINT [ "/docker-entrypoint-2.sh" ]
+ENTRYPOINT [ "docker-entrypoint-2.sh" ]
 CMD ["mongod"]
